@@ -14,7 +14,9 @@ import com.pikachu.record.tool.ToolState;
 
 //import android.support.multidex.MultiDex;
 
-
+/**
+ * 启动页
+ */
 public class MainActivity extends AppCompatActivity {
 
 
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         initApp();
 
+        // 停留600毫秒后跳转到主页
         new Handler().postDelayed(new Runnable(){
 				@Override
 				public void run() {
