@@ -84,7 +84,7 @@
 	<string name="diary_title">笔记标题：</string>
 	<string name="diary_image">选择图片：</string>
     <string name="diary_text">笔记内容：</string>
-    <string name="diary_title_init">物理笔记</string>
+    <string name="diary_title_init">笔记</string>
     <string name="diary_text_init">在理想情况下...</string>
     
     
@@ -108,7 +108,7 @@
 
 
     <!--所有心情-->
-    <string name="string_kaixin">开兴</string>
+    <string name="string_kaixin">开心</string>
     <string name="string_chongshi">充实</string>
     <string name="string_jingxi">惊喜</string>
     <string name="string_deyi">得意</string>
