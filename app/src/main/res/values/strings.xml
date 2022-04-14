@@ -20,9 +20,9 @@
     <string name="home_main_mood_4">25 次</string>
     <string name="home_main_mood_5">没有哦</string>
     <string name="home_main_mood_6">添加更多</string>
-    <string name="home_main_mood_7">最近任务</string>
+    <string name="home_main_mood_7">我的心情</string>
     <string name="home_main_mood_8">账单管理</string>
-    <string name="home_main_mood_9">最近笔记</string>
+    <string name="home_main_mood_9">我的笔记</string>
     <string name="home_main_mood_10">———  没有更多了哦  ———</string>
 
     <!--主页 任务listUI-->
@@ -34,6 +34,7 @@
     <string name="home_main_list_6">已完成</string>
     <string name="home_main_list_7">昨天</string>
     <string name="home_main_list_8">明天</string>
+    <string name="home_main_list_9">最近任务</string>
 
     <!--主页 账单UI-->
     <string name="home_main_account_1">今天</string>
@@ -111,7 +112,7 @@
     <string name="string_kaixin">开心</string>
     <string name="string_chongshi">充实</string>
     <string name="string_jingxi">惊喜</string>
-    <string name="string_deyi">得意</string>
+    <string name="string_deyi">激动</string>
     <string name="string_nuanxin">暖心</string>
     <string name="string_pingjing">平静</string>
     <string name="string_nanguo">难过</string>
@@ -156,31 +157,22 @@
     </string-array>
 
     <string-array name="main_task_str">
-        <item>下午开始学习</item>
-        <item>荒废了一个月的java课程得拿出来看看了</item>
+        <item>下午学习</item>
+        <item>高数</item>
         <item>明天下午拿快递</item>
         <item>放了几天的快递明天可不能忘了</item>
-        <item>球赛</item>
-        <item>晚上的球赛可不能忘了，要看就看直播</item>
     </string-array>
     <string name="main_task_1">2020/06/07 17:21:00</string>
 
     <string-array name="main_account_str">
         <item>买菜</item>
         <item>下午买了一条鱼，准备试试红烧鱼</item>
-        <item>上网</item>
-        <item>又玩了一下午，就快上钻石了，不亏不亏</item>
-        <item>买了张火车票</item>
-        <item>过几天就出去打工咯，开始大多数的命运</item>
+
     </string-array>
 
     <string-array name="main_diary_str">
-        <item>Java笔记</item>
-        <item>public class HelloWorld {\n    /* 第一个Java程序\n     * 它将打印字符串 Hello World\n     */\n    public static void main(String []args) {\n        System.out.println("Hello World"); // 打印 Hello World\n    }\n}</item>
-        <item>JavaScript笔记</item>
-        <item>alert("我的第一个 JavaScript");\nalert("我的第二个 JavaScript");</item>
         <item>爬山</item>
-        <item>屋里待的太久了，偶然出浪浪，整整野炊美滋滋 ^_^</item>
+        <item>Today^_^</item>
     </string-array>
 
 
@@ -192,7 +184,7 @@
 
     <string name="toast_main_1">鲨鱼记事</string>
     <string name="long_text_test">TopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopView</string>
-    <string name="emil_text_test">pikachu@pikachu.like</string>
+    <string name="emil_text_test">Happy everyday!!!</string>
 
 
 </resources>
