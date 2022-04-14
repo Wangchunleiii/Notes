@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">随手记</string>
-    <string name="main_1">—  记录生活记录自己  —</string>
+    <string name="app_name">鲨鱼记事</string>
+    <string name="main_1">—  开心每一天  —</string>
 
 
     <!--主页  侧滑-->
     <string name="home_drawer_my">我的小窝</string>
     <string name="home_drawer_mood">我的心情</string>
-    <string name="home_drawer_task">任务管理</string>
-    <string name="home_drawer_diary">笔记管理</string>
+    <string name="home_drawer_task">每日任务</string>
+    <string name="home_drawer_diary">我的笔记</string>
     <string name="home_drawer_account">账单管理</string>
     <string name="home_drawer_set">设置</string>
 
@@ -50,7 +50,7 @@
     <!--主页 日记listUI-->
     <string name="mood_activity_1">我的心情</string>
     <string name="diary_activity_1">我的笔记</string>
-    <string name="task_activity_1">我的任务</string>
+    <string name="task_activity_1">每日任务</string>
 	
 
     <!--主页 AddButtonView-->
@@ -72,7 +72,7 @@
     
     <!--    account Activity  -->
     <string name="account_title">账单标题：</string>
-    <string name="account_title_hint">如：买菜/加班/撸串</string>
+    <string name="account_title_hint">如：学习，锻炼</string>
     <string name="account_entrance">收入</string>
     <string name="account_outlet">支出</string>
     <string name="account_remark">账单备注：</string>
@@ -190,7 +190,7 @@
 
 
 
-    <string name="toast_main_1">随手记</string>
+    <string name="toast_main_1">鲨鱼记事</string>
     <string name="long_text_test">TopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopViewTopView</string>
     <string name="emil_text_test">pikachu@pikachu.like</string>
 

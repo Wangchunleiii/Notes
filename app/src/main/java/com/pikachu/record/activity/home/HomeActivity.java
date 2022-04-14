@@ -199,7 +199,7 @@ public class HomeActivity extends ReturnImagePath implements TaskAdapter.TaskAct
         listData = new ArrayList<>();
         listData.add(new DrawerRecyclerAdapter.ListData(R.drawable.home_drawer_item_my_icon, strMy));
         listData.add(new DrawerRecyclerAdapter.ListData(R.drawable.home_drawer_item_mood_icon, strMood));
-        listData.add(new DrawerRecyclerAdapter.ListData(R.drawable.home_drawer_item_task_icon, strTask));
+        listData.add(new DrawerRecyclerAdapter.ListData(R.drawable.task_edit_icon, strTask));
         listData.add(new DrawerRecyclerAdapter.ListData(R.drawable.home_drawer_item_account_icon, strAccount));
         listData.add(new DrawerRecyclerAdapter.ListData(R.drawable.home_drawer_item_diary_icon, strDiary));
         listData.add(new DrawerRecyclerAdapter.ListData(R.drawable.home_drawer_item_set_icon, strSet));

@@ -12,14 +12,15 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <com.pikachu.record.view.statistics.CircleGroupView
                 android:id="@+id/id_home_main_circleGroupView_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:statistics_size="100dp"
-                app:top_margin="20dp"
+                app:bottom_margin="15dp"
                 app:left_margin="15dp"
-                app:bottom_margin="15dp"/>
+                app:statistics_size="100dp"
+                app:top_margin="20dp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="140dp"

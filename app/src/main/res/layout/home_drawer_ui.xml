@@ -15,11 +15,12 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/home_drawer_my_bg" />
+
+
         <View
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_05"/>
-
+            android:background="@color/color_05" />
 
         <LinearLayout
             android:layout_width="match_parent"
