@@ -1,16 +1,15 @@
 package com.pikachu.record.sql.data;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.pikachu.record.R;
 import com.pikachu.record.sql.table.Account;
 import com.pikachu.record.sql.table.AppOne;
+import com.pikachu.record.sql.table.CountDown;
 import com.pikachu.record.sql.table.Diary;
 import com.pikachu.record.sql.table.Mood;
 import com.pikachu.record.sql.table.Task;
-import com.pikachu.record.tool.ToolOther;
 import com.pikachu.record.tool.ToolPublic;
 import com.pikachu.record.tool.ToolTime;
 
@@ -35,12 +34,14 @@ public class InitialSql {
     private DaoSession daoMasterTask;
     private DaoSession daoMasterAccount;
     private DaoSession daoMasterDiary;
+    private DaoSession daoMasterCountDown;
     private ToolSqlMaster instance;
 
 
     //数据库查询回调
     public interface SqlData{
-        void sqlData(List<Mood> moods,List<Task> tasks,List<Account> accounts,List<Diary> diaries);
+        void sqlData(List<Mood> moods, List<Task> tasks, List<Account> accounts, List<Diary> diaries,
+                     List<CountDown> countdowns);
     }
 
 
@@ -63,6 +64,9 @@ public class InitialSql {
 
         instance = ToolSqlMaster.getInstance(ToolPublic.ACCOUNT_DB).init(context);
         daoMasterAccount = instance.getDaoSession();
+
+        instance = ToolSqlMaster.getInstance(ToolPublic.COUNT_DOWN_DB).init(context);
+        daoMasterCountDown = instance.getDaoSession();
 
         instance = ToolSqlMaster.getInstance(ToolPublic.DIARY_DB).init(context);
         daoMasterDiary = instance.getDaoSession();
@@ -166,9 +170,10 @@ public class InitialSql {
 
         List<Mood> moods = getMoodBuilder().orderDesc(MoodDao.Properties.Item).list();
         List<Task> tasks =  getTaskBuilder().orderDesc(TaskDao.Properties.Time).list();
+        List<CountDown> countdowns =  getCountDownBuilder().orderDesc(CountDownDao.Properties.Time).list();
         List<Account> accounts = getAccountBuilder().orderDesc(AccountDao.Properties.Item).list();
         List<Diary> diaries = getDiaryBuilder().orderDesc(DiaryDao.Properties.Time).list();
-        sqlData.sqlData(moods,tasks,accounts,diaries);
+        sqlData.sqlData(moods,tasks,accounts,diaries, countdowns);
     }
 
 
@@ -181,6 +186,11 @@ public class InitialSql {
     public List<Task> getTaskData(){
         return daoMasterTask.loadAll(Task.class);
     }
+
+    public List<CountDown> getCountDownData(){
+        return daoMasterCountDown.loadAll(CountDown.class);
+    }
+
     public List<Account> getAccountData(){
         return daoMasterAccount.loadAll(Account.class);
     }
@@ -198,6 +208,9 @@ public class InitialSql {
     }
     public QueryBuilder<Task> getTaskBuilder() {
         return daoMasterTask.queryBuilder(Task.class);
+    }
+    public QueryBuilder<CountDown> getCountDownBuilder() {
+        return daoMasterCountDown.queryBuilder(CountDown.class);
     }
     public QueryBuilder<Account> getAccountBuilder() {
         return daoMasterAccount.queryBuilder(Account.class);
@@ -230,6 +243,9 @@ public class InitialSql {
     }
     public void setOneTaskData(Task task){
         daoMasterTask.insertOrReplace(task);
+    }
+    public void setOneCountDownData(CountDown task){
+        daoMasterCountDown.insertOrReplace(task);
     }
     public void setOneAccountData(Account account){
         daoMasterAccount.insertOrReplace(account);
@@ -305,6 +321,10 @@ public class InitialSql {
     public void updateTask(Task task) {
         daoMasterTask.update(task);
     }
+
+    public void updateCountDown(CountDown task) {
+        daoMasterCountDown.update(task);
+    }
     public void updateAccount(Account account) {
         daoMasterAccount.update(account);
     }
@@ -323,6 +343,10 @@ public class InitialSql {
     }
     public void deleteTask(Task task) {
         daoMasterTask.delete(task);
+    }
+
+    public void deleteCountDown(CountDown task) {
+        daoMasterCountDown.delete(task);
     }
     public void deleteAccount(Account account) {
         daoMasterAccount.delete(account);

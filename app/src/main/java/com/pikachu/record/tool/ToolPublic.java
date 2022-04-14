@@ -11,10 +11,6 @@ public class ToolPublic {
 
 
 
-
-
-
-
     //时间格式
     public static final String TIME_DATA="yyyy/MM/dd HH:mm:ss";
 
@@ -35,6 +31,8 @@ public class ToolPublic {
 
 
 
+    //倒计时数据库
+    public static final String COUNT_DOWN_DB="countdown.db";
     //心情数据库
     public static final String MOOD_DB="mood.db";
     //任务数据库

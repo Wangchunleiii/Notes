@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 时间操作类工具
@@ -238,7 +239,53 @@ public class ToolTime {
         }
         return formatDate;
     }
-    
+    /**
+     * 将时间戳转换成描述性时间（昨天、今天、明天）
+     *
+     * @return 描述性日期
+     */
+    public static String getRestTime(String dataStr, String itemType) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat(itemType, Locale.CHINA);
+        Date date=null;
+        try {
+            date = sdf.parse(dataStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        long restMills = date.getTime() - System.currentTimeMillis();
+        if (restMills < 0) {
+            return "已过期";
+        }
+        long v = 0;
+        String unit = "";
+        int unitIndex = 0;
+        while (v == 0) {
+            switch (unitIndex++) {
+                case 0:
+                    v = TimeUnit.DAYS.convert(restMills, TimeUnit.MILLISECONDS);
+                    unit = "天";
+                    break;
+                case 1:
+                    v = TimeUnit.HOURS.convert(restMills, TimeUnit.MILLISECONDS);
+                    unit = "小时";
+                    break;
+                case 2:
+                    v = TimeUnit.MINUTES.convert(restMills, TimeUnit.MILLISECONDS);
+                    unit = "分钟";
+                    break;
+                case 3:
+                    v = TimeUnit.SECONDS.convert(restMills, TimeUnit.MILLISECONDS);
+                    unit = "秒";
+                    break;
+                default:
+                    return "已过期";
+            }
+        }
+        return v + unit;
+    }
+
     
     
     /**

@@ -56,6 +56,17 @@
         </androidx.cardview.widget.CardView>
 
 
+        <!--TODO wangchunlei: 替换这里的图标-->
+        <com.pikachu.record.view.add.AddButtonView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:image_is_circle="true"
+            app:image_size="45dp"
+            app:src="@drawable/home_countdonw_icon"
+            app:text="@string/home_countdown"
+            app:text_image_margin="5dp"
+            app:text_size="12dp" />
+
         <com.pikachu.record.view.add.AddButtonView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,7 +75,7 @@
             app:src="@drawable/home_mood_icon"
             app:text="@string/home_mood"
             app:text_image_margin="5dp"
-            app:text_size="4.5sp" />
+            app:text_size="12dp" />
 
 
         <com.pikachu.record.view.add.AddButtonView
@@ -75,7 +86,7 @@
             app:src="@drawable/home_task_icon"
             app:text="@string/home_task"
             app:text_image_margin="5dp"
-            app:text_size="4.5sp" />
+            app:text_size="12dp" />
 
         <com.pikachu.record.view.add.AddButtonView
             android:layout_width="wrap_content"
@@ -85,7 +96,7 @@
             app:src="@drawable/home_diary_icon"
             app:text="@string/home_diary"
             app:text_image_margin="5dp"
-            app:text_size="4.5sp" />
+            app:text_size="12dp" />
 
         <com.pikachu.record.view.add.AddButtonView
             android:layout_width="wrap_content"
@@ -95,8 +106,7 @@
             app:src="@drawable/home_account_icon"
             app:text="@string/home_account"
             app:text_image_margin="5dp"
-            app:text_size="4.5sp" />
-
+            app:text_size="12dp" />
 
     </com.pikachu.record.view.add.AddButtonLayout>
 </RelativeLayout>

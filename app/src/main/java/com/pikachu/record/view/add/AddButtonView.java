@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +81,7 @@ public class AddButtonView extends LinearLayout {
         text = typedArray.getString(R.styleable.AddButtonView_text);
         textType = typedArray.getInteger(R.styleable.AddButtonView_text_type, textType);
         textColor = typedArray.getColor(R.styleable.AddButtonView_text_color, textColor);
-        textSize = typedArray.getDimension(R.styleable.AddButtonView_text_size, textSize);
+        textSize = typedArray.getDimensionPixelSize(R.styleable.AddButtonView_text_size, 12);
         textImageMargin = typedArray.getDimensionPixelSize(R.styleable.AddButtonView_text_image_margin,  textImageMargin);
         textIsShow = typedArray.getBoolean(R.styleable.AddButtonView_text_is_show, textIsShow);
 
@@ -174,7 +175,7 @@ public class AddButtonView extends LinearLayout {
 
     public void setTextSize(float textSize) {
         this.textSize = textSize;
-        textView.setTextSize(textSize);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
     }
 
     public void setTextImageMargin(int textImageMargin) {

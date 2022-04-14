@@ -41,25 +41,25 @@ public class TaskAddDialogAdapter {
 
 
     private final Context context;
-    private final Activity activity;
-    private final InitialSql initialSql;
+    protected final Activity activity;
+    protected final InitialSql initialSql;
     private BottomSheetDialog dialog;
     private TimeChoose timeChoose;
     private View box_view;
-    private TextView titleTextView, finishTextView, stopTimeTV;
-    private EditText msgEditView, titleEditView;
+    protected TextView titleTextView, finishTextView, stopTimeTV;
+    protected EditText msgEditView, titleEditView;
     private LinearLayout linear_1;
     private final String upStr;
-    private final String addStr;
-    private final String finishStr;
-    private final String initStr;
+    protected String addStr;
+    protected final String finishStr;
+    protected final String initStr;
 
 
     public interface EndAdd {
         void endAdd();
     }
 
-    private EndAdd endAdd = () -> {
+    protected EndAdd endAdd = () -> {
     };
 
 
@@ -111,7 +111,7 @@ public class TaskAddDialogAdapter {
 
                 }
             };
-            box_view = LayoutInflater.from(context).inflate(R.layout.task_add_data_ui, null);
+            box_view = LayoutInflater.from(context).inflate(getLayoutRes(), null);
 
             titleTextView = box_view.findViewById(R.id.id_task_add_data_text_2);
             finishTextView = box_view.findViewById(R.id.id_task_add_data_text_1);
@@ -126,6 +126,10 @@ public class TaskAddDialogAdapter {
             dialog.setContentView(box_view);
             dialog.getWindow().findViewById(R.id.design_bottom_sheet).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
+    }
+
+    protected int getLayoutRes() {
+        return R.layout.task_add_data_ui;
     }
 
 
@@ -162,7 +166,7 @@ public class TaskAddDialogAdapter {
 
 
     //isUpData=false 添加数据，isUpData=true  更新数据;
-    private void addAndUpData(boolean isUpData, Task task) {
+    protected void addAndUpData(boolean isUpData, Task task) {
         String title = titleEditView.getText().toString();
         String msg = msgEditView.getText().toString();
         String stopTime = stopTimeTV.getText().toString();

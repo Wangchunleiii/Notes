@@ -10,19 +10,20 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.pikachu.record.R;
 import com.pikachu.record.activity.account.AccountActivity;
 import com.pikachu.record.activity.account.AccountAddDialogAdapter;
+import com.pikachu.record.activity.countdown.CountDownDialogAdapter;
 import com.pikachu.record.activity.dialog.PDialog;
 import com.pikachu.record.activity.diary.DiaryActivity;
 import com.pikachu.record.activity.diary.DiaryAddDialogAdapter;
 import com.pikachu.record.activity.home.adapter.AccountAdapter;
+import com.pikachu.record.activity.home.adapter.BaseAdapter.TaskActivityItemOnclick;
+import com.pikachu.record.activity.home.adapter.CountDownAdapter;
 import com.pikachu.record.activity.home.adapter.DiaryAdapter;
 import com.pikachu.record.activity.home.adapter.DrawerRecyclerAdapter;
 import com.pikachu.record.activity.home.adapter.MoodAdapter;
@@ -34,6 +35,7 @@ import com.pikachu.record.activity.task.TaskAddDialogAdapter;
 import com.pikachu.record.monitor.DataSynEvent;
 import com.pikachu.record.monitor.ReturnImagePath;
 import com.pikachu.record.sql.data.InitialSql;
+import com.pikachu.record.sql.table.CountDown;
 import com.pikachu.record.sql.table.Task;
 import com.pikachu.record.tool.ToolGaussBlur;
 import com.pikachu.record.tool.ToolOther;
@@ -41,17 +43,15 @@ import com.pikachu.record.tool.ToolPublic;
 import com.pikachu.record.tool.ToolState;
 import com.pikachu.record.view.add.AddButtonLayout;
 import com.pikachu.record.view.top.TopView;
-
+import java.util.ArrayList;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
-
 /*import android.content.Context;
 import android.support.multidex.MultiDex;*/
 
-public class HomeActivity extends ReturnImagePath implements TaskAdapter.TaskActivityItemOnclick {
+public class HomeActivity extends ReturnImagePath {
 
 
     //id
@@ -82,6 +82,7 @@ public class HomeActivity extends ReturnImagePath implements TaskAdapter.TaskAct
     private MoodAdapter moodAdapter;
     private InitialSql initialSql;
     private TaskAdapter taskAdapter;
+    private CountDownAdapter countDownAdapter;
     private AccountAdapter accountAdapter;
     private DiaryAdapter diaryAdapter;
 
@@ -89,6 +90,7 @@ public class HomeActivity extends ReturnImagePath implements TaskAdapter.TaskAct
     private DiaryAddDialogAdapter diaryAddDialogAdapter;
     private AccountAddDialogAdapter accountAddDialogAdapter;
     private TaskAddDialogAdapter taskAddDialogAdapter;
+    private CountDownDialogAdapter countdownAddDialogAdapter;
 
 
     @Override
@@ -119,7 +121,6 @@ public class HomeActivity extends ReturnImagePath implements TaskAdapter.TaskAct
         swipeRefreshLayout = findViewById(R.id.id_home_main_swipe_1);
         addButtonLayout = findViewById(R.id.id_home_main_AddButtonLayout);
 
-
         bg = getResources().getDrawable(R.drawable.home_drawer_my_bg);
 
         str = getResources().getString(R.string.long_text_test);
@@ -140,25 +141,26 @@ public class HomeActivity extends ReturnImagePath implements TaskAdapter.TaskAct
         EventBus.getDefault().register(this);
 
         //初始addDialog    (4个)
+        countdownAddDialogAdapter = new CountDownDialogAdapter(this);
         moodAddDialogAdapter = new MoodAddDialogAdapter(this, ToolPublic.MOOD_STR_TO_COLOR);
         diaryAddDialogAdapter = new DiaryAddDialogAdapter(this);
         accountAddDialogAdapter = new AccountAddDialogAdapter(this);
         taskAddDialogAdapter = new TaskAddDialogAdapter(this);
 
-
         //左边点击事件
         topView.setLeftImageOnClick(p1 -> drawerLayout.openDrawer(Gravity.LEFT));
-
 
         //菜单点击事件
         addButtonLayout.setOnItemClick((view, position) -> {
             if (position == 0) {
-                moodAddDialogAdapter.showDialog(true, true);
+                countdownAddDialogAdapter.showDialog(true, true);
             } else if (position == 1) {
-                taskAddDialogAdapter.showDialog(true, true);
+                moodAddDialogAdapter.showDialog(true, true);
             } else if (position == 2) {
-                diaryAddDialogAdapter.showDialog(true, true);
+                taskAddDialogAdapter.showDialog(true, true);
             } else if (position == 3) {
+                diaryAddDialogAdapter.showDialog(true, true);
+            } else if (position == 4) {
                 accountAddDialogAdapter.showDialog(true, true);
             }
 
@@ -166,12 +168,12 @@ public class HomeActivity extends ReturnImagePath implements TaskAdapter.TaskAct
             //ToolOther.tw(HomeActivity.this, text, R.drawable.toast_true_icon);
         });
 
-
         //数据库初始
         initialSql = new InitialSql(this);
         //四个组件初始
         moodAdapter = new MoodAdapter(this);
         taskAdapter = new TaskAdapter(this);
+        countDownAdapter = new CountDownAdapter(this);
         accountAdapter = new AccountAdapter(this);
         diaryAdapter = new DiaryAdapter(this);
 
@@ -181,7 +183,60 @@ public class HomeActivity extends ReturnImagePath implements TaskAdapter.TaskAct
             swipeRefreshLayout.setRefreshing(false);
         });
         //设置task 的item 监听
-        taskAdapter.setTaskActivityItemOnclick(this);
+        taskAdapter.setTaskActivityItemOnclick(new TaskActivityItemOnclick() {
+            //首页 任务列表 完成删除回调
+            @Override
+            public void deleteOnClick(View view, int position, final Object task) {
+
+                PDialog.PDialog(HomeActivity.this)
+                        .setMsg("是否删除此条数据")
+                        .setLeftStr("删除", (v, pDialog) -> {
+                            initialSql.deleteTask((Task) task);
+                            pDialog.dismiss();
+                            //发布更新事件
+                            upDataLoadUi();
+                        })
+                        .setRightStr("取消", null)
+                        .show();
+
+
+            }
+
+            @Override
+            public void completeOnClick(View view, int position, Object task) {
+
+                ((Task) task).setIsAs(true);
+                initialSql.updateTask((Task) task);
+                upDataLoadUi();
+            }
+        });
+        countDownAdapter.setTaskActivityItemOnclick(new TaskActivityItemOnclick() {
+            //首页 倒计时列表 完成删除回调
+            @Override
+            public void deleteOnClick(View view, int position, final Object task) {
+
+                PDialog.PDialog(HomeActivity.this)
+                        .setMsg("是否删除此条数据")
+                        .setLeftStr("删除", (v, pDialog) -> {
+                            initialSql.deleteCountDown((CountDown) task);
+                            pDialog.dismiss();
+                            //发布更新事件
+                            upDataLoadUi();
+                        })
+                        .setRightStr("取消", null)
+                        .show();
+
+
+            }
+
+            @Override
+            public void completeOnClick(View view, int position, Object task) {
+
+                ((CountDown) task).setIsAs(true);
+                initialSql.updateCountDown((CountDown) task);
+                upDataLoadUi();
+            }
+        });
 
         //加载数据并更新ui
         upDataLoadUi();
@@ -207,7 +262,6 @@ public class HomeActivity extends ReturnImagePath implements TaskAdapter.TaskAct
         drawerRecyclerAdapter = new DrawerRecyclerAdapter(this, listData);
         drawerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         drawerRecyclerView.setAdapter(drawerRecyclerAdapter);
-
 
         //设置item的点击事件
         drawerRecyclerAdapter.setItemOnClick((position, listData) -> {
@@ -241,12 +295,12 @@ public class HomeActivity extends ReturnImagePath implements TaskAdapter.TaskAct
 
     //加载数据并更新ui   调用这个函数进行主页刷新
     private void upDataLoadUi() {
-        initialSql.querySqlData((moods, tasks, accounts, diaries) -> {
+        initialSql.querySqlData((moods, tasks, accounts, diaries, countdowns) -> {
             moodAdapter.loadDataUpUi(moods);
             taskAdapter.loadDataUpUi(tasks);
             accountAdapter.loadDataUpUi(accounts);
             diaryAdapter.loadDataUpUi(diaries);
-
+            countDownAdapter.loadDataUpUi(countdowns);
         });
 
     }
@@ -270,36 +324,6 @@ public class HomeActivity extends ReturnImagePath implements TaskAdapter.TaskAct
         super.onDestroy();
         //解除订阅
         EventBus.getDefault().unregister(this);
-    }
-
-
-    //首页 任务列表 完成删除回调
-    @Override
-    public void deleteOnClick(View view, int position, final Task task) {
-
-
-        PDialog.PDialog(this)
-                .setMsg("是否删除此条数据")
-                .setLeftStr("删除", (v, pDialog) -> {
-                    initialSql.deleteTask(task);
-                    pDialog.dismiss();
-                    //发布更新事件
-                    upDataLoadUi();
-                })
-                .setRightStr("取消", null)
-                .show();
-
-
-    }
-
-    @Override
-    public void completeOnClick(View view, int position, Task task) {
-
-        task.setIsAs(true);
-        initialSql.updateTask(task);
-        upDataLoadUi();
-
-
     }
 
 
