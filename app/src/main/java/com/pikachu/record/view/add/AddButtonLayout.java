@@ -20,7 +20,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
 
@@ -229,6 +228,7 @@ public class AddButtonLayout extends ViewGroup {
 						@Override
 						public void onClick(View v) {
 							onItemClick.click(v, ii - 1);
+							close();
 						}
 					});
 				
@@ -263,6 +263,9 @@ public class AddButtonLayout extends ViewGroup {
     }
 
 
+    float startRotation;
+    float endRotation;
+    
     //   展开/关闭   按键点击事件
     public void setOneOnClick(View view) {
 
@@ -270,88 +273,95 @@ public class AddButtonLayout extends ViewGroup {
 
 				@Override
 				public void onClick(View v) {
-					float startRotation;
-					float endRotation;
+					
 
 
 					if (isRotation) {
 						//点击收起
-						startRotation = 45;
-						endRotation = 0;
-						isRotation = false;
+                        close();
+                    } else {
+                        open();
+                    }
+                }
+        });
+    }
 
-						if (animatorIsEnd) {
-							animatorIsEnd = false;
-							int childCount = getChildCount() - 1;
-							for (int i = childCount; i >= 1; i--) {
-								final int ii = i;
-								final View childView = getChildAt(i);
+    private void open() {
+        startRotation = 0;
+        endRotation = 45;
+        isRotation = true;
 
-								float x = viewXIES.get(i).x;
-								float y = viewXIES.get(i).y;
+        if (animatorIsEnd) {
+            animatorIsEnd = false;
+            final int childCount = getChildCount();
+            for (int i = 1; i < childCount; i++) {
+                final int ii = i;
+                View childView = getChildAt(i);
 
-								AnimatorSet animatorSet_false = onAnimatorSet.endAnimation(childView, animatorSpeed * (childCount - i), 0, 0, xx - x, yy - y);
-								animatorSet_false.addListener(new AnimatorListenerAdapter() {
-										@Override
-										public void onAnimationEnd(Animator animation) {
-											super.onAnimationEnd(animation);
-											childView.setVisibility(View.INVISIBLE);
-											if (ii == 1)
-												animatorIsEnd = true;
-										}
-									});
-								animatorSet_false.start();
-							}
-						}
+                childView.setVisibility(View.VISIBLE);
 
-					} else {
+                float x = viewXIES.get(i).x;
+                float y = viewXIES.get(i).y;
 
-						startRotation = 0;
-						endRotation = 45;
-						isRotation = true;
+                AnimatorSet animatorSet = onAnimatorSet.startAnimation(childView, animatorSpeed * i, xx - x, yy - y, 0, 0);
+                animatorSet.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        if (childCount - 1 == ii)
+                            animatorIsEnd = true;
+                    }
+                });
+                animatorSet.start();
+            }
+        }
+        rotate();
+    }
 
-						if (animatorIsEnd) {
-							animatorIsEnd = false;
-							final int childCount = getChildCount();
-							for (int i = 1; i < childCount; i++) {
-								final int ii = i;
-								View childView = getChildAt(i);
+    private void close() {
+        startRotation = 45;
+        endRotation = 0;
+        isRotation = false;
 
-								childView.setVisibility(View.VISIBLE);
+        if (animatorIsEnd) {
+            animatorIsEnd = false;
+            int childCount = getChildCount() - 1;
+            for (int i = childCount; i >= 1; i--) {
+                final int ii = i;
+                final View childView = getChildAt(i);
 
-								float x = viewXIES.get(i).x;
-								float y = viewXIES.get(i).y;
+                float x = viewXIES.get(i).x;
+                float y = viewXIES.get(i).y;
 
-								AnimatorSet animatorSet = onAnimatorSet.startAnimation(childView, animatorSpeed * i, xx - x, yy - y, 0, 0);
-								animatorSet.addListener(new AnimatorListenerAdapter() {
-										@Override
-										public void onAnimationEnd(Animator animation) {
-											super.onAnimationEnd(animation);
-											if (childCount - 1 == ii)
-												animatorIsEnd = true;
-										}
-									});
-								animatorSet.start();
-							}
-						}
-					}
+                AnimatorSet animatorSet_false = onAnimatorSet.endAnimation(childView, animatorSpeed * (childCount - i), 0, 0, xx - x, yy - y);
+                animatorSet_false.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        childView.setVisibility(View.INVISIBLE);
+                        if (ii == 1)
+                            animatorIsEnd = true;
+                    }
+                });
+                animatorSet_false.start();
+            }
+        }
+        rotate();
+    }
 
-					//旋转
-					ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(v, "rotation", startRotation, endRotation);
-					objectAnimator.setDuration(500);
-					objectAnimator.setInterpolator(new Interpolator(){
-							@Override
-							public float getInterpolation(float t_1) {
-								int var = 5;
-								t_1 -= 1.0f;
-								return t_1 * t_1 * ((var + 1) * t_1 + var) + 1.0f;
-							}
-						});
-					objectAnimator.start();
-				}
-			});
-
-
+    private void rotate() {
+        //旋转
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(getChildAt(0), "rotation", startRotation, endRotation);
+        objectAnimator.setDuration(500);
+        objectAnimator.setInterpolator(new Interpolator(){
+                @Override
+                public float getInterpolation(float t_1) {
+                    int var = 5;
+                    t_1 -= 1.0f;
+                    return t_1 * t_1 * ((var + 1) * t_1 + var) + 1.0f;
+                }
+            });
+        objectAnimator.start();
     }
 
 
