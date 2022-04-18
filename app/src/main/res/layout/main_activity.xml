@@ -38,8 +38,8 @@
 				app:qmui_is_circle="true"
 				app:qmui_border_width="0dp"
                 />
-			
-			
+
+
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
