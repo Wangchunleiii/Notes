@@ -19,7 +19,6 @@
             android:layout_height="30dp"/>
         <TextView
             android:layout_marginStart="10dp"
-            android:id="@+id/id_home_main_scroll_textView_8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/home_main_mood_7"
@@ -48,7 +47,6 @@
                 android:layout_height="30dp"/>
             <TextView
                 android:layout_marginStart="10dp"
-                android:id="@+id/id_home_main_scroll_textView_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="倒计时"
